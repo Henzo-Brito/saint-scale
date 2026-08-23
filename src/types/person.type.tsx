@@ -1,8 +1,8 @@
-import { ImageSourcePropType } from "react-native"
+import type { ImageSourcePropType } from "react-native";
 
 export type Person = {
-    idPerson: string
-    img: ImageSourcePropType
-    name: string
-    funcao: string
-} 
+	idPerson: string;
+	img: ImageSourcePropType;
+	name: string;
+	funcao: string;
+};
