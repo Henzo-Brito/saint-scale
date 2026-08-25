@@ -59,7 +59,7 @@ export default function Index() {
 	}
 
 	function handleRegister() {
-		router.push("/auth/signUp/1");
+		router.push("/auth/signUp");
 	}
 
 	return (

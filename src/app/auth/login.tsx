@@ -54,7 +54,7 @@ export default function Login() {
 					Ainda não possui uma conta?{" "}
 					<Text
 						onPress={() => {
-							router.push("/auth/signUp/1");
+							router.push("/auth/signUp");
 						}}
 						style={styles.registerLink}
 					>
