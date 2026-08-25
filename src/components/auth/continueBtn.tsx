@@ -7,6 +7,8 @@ import {
 	type ViewStyle,
 } from "react-native";
 
+import { ArrowRight } from "lucide-react-native";
+
 type Props = {
 	text: string;
 	bgcolor?: string;
@@ -14,7 +16,7 @@ type Props = {
 	func?: ()=> void;
 };
 
-export default function SendBtn({ text, sty, bgcolor = style.c1, func }: Props) {
+export default function ContinueBtn({ text, sty, bgcolor = style.c1, func }: Props) {
 	return (
 		<TouchableOpacity
 			style={[
@@ -27,6 +29,7 @@ export default function SendBtn({ text, sty, bgcolor = style.c1, func }: Props) 
 			onPress={func}
 		>
 			<Text style={styles.text}>{text}</Text>
+            <ArrowRight strokeWidth={2.5}></ArrowRight>
 		</TouchableOpacity>
 	);
 }
@@ -34,13 +37,15 @@ export default function SendBtn({ text, sty, bgcolor = style.c1, func }: Props) 
 const styles = StyleSheet.create({
 	container: {
 		width: "100%",
-		borderRadius: 20,
+		borderRadius: 50,
 		padding: 10,
 		justifyContent: "center",
 		alignItems: "center",
+        flexDirection: "row",
+        gap: 10
 	},
 	text: {
-		fontSize: 28,
+		fontSize: 22,
 		fontWeight: 900,
 		fontFamily: style.font1,
 	},
