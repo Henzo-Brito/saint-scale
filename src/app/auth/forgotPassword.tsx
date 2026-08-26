@@ -1,14 +1,13 @@
-import {View ,Text, StyleSheet} from "react-native"
+import { StyleSheet, Text, View } from "react-native";
 
-export default function ForgotPassword(){
-    return (<View style={styles.container}>
-        <Text>Henzo é Legal</Text>
-
-    </View>)
+export default function ForgotPassword() {
+	return (
+		<View style={styles.container}>
+			<Text>Henzo é Legal</Text>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-    container:{
-
-    }
-})
+	container: {},
+});

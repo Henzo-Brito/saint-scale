@@ -1,4 +1,4 @@
-import style from "@/constants/styles";
+import { ArrowRight } from "lucide-react-native";
 import {
 	type StyleProp,
 	StyleSheet,
@@ -6,17 +6,21 @@ import {
 	TouchableOpacity,
 	type ViewStyle,
 } from "react-native";
-
-import { ArrowRight } from "lucide-react-native";
+import style from "@/constants/styles";
 
 type Props = {
 	text: string;
 	bgcolor?: string;
 	sty?: StyleProp<ViewStyle>;
-	func?: ()=> void;
+	func?: () => void;
 };
 
-export default function ContinueBtn({ text, sty, bgcolor = style.c1, func }: Props) {
+export default function ContinueBtn({
+	text,
+	sty,
+	bgcolor = style.c1,
+	func,
+}: Props) {
 	return (
 		<TouchableOpacity
 			style={[
@@ -24,12 +28,12 @@ export default function ContinueBtn({ text, sty, bgcolor = style.c1, func }: Pro
 				{
 					backgroundColor: bgcolor,
 				},
-				sty
+				sty,
 			]}
 			onPress={func}
 		>
 			<Text style={styles.text}>{text}</Text>
-            <ArrowRight strokeWidth={2.5}></ArrowRight>
+			<ArrowRight strokeWidth={2.5}></ArrowRight>
 		</TouchableOpacity>
 	);
 }
@@ -41,8 +45,8 @@ const styles = StyleSheet.create({
 		padding: 10,
 		justifyContent: "center",
 		alignItems: "center",
-        flexDirection: "row",
-        gap: 10
+		flexDirection: "row",
+		gap: 10,
 	},
 	text: {
 		fontSize: 22,

@@ -1,14 +1,13 @@
 const img = require("@/assets/1.jpg");
 
-import SendBtn from "@/components/auth/sendBtn";
-import TextInput from "@/components/auth/textInput";
-import style from "@/constants/styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { Image, StyleSheet, Text, View } from "react-native";
+import SendBtn from "@/components/auth/sendBtn";
+import TextInput from "@/components/auth/textInput";
+import style from "@/constants/styles";
 
 export default function Login() {
-
 	return (
 		<View style={styles.container}>
 			<LinearGradient

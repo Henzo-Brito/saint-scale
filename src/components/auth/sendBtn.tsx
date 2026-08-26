@@ -1,4 +1,3 @@
-import style from "@/constants/styles";
 import {
 	type StyleProp,
 	StyleSheet,
@@ -6,15 +5,21 @@ import {
 	TouchableOpacity,
 	type ViewStyle,
 } from "react-native";
+import style from "@/constants/styles";
 
 type Props = {
 	text: string;
 	bgcolor?: string;
 	sty?: StyleProp<ViewStyle>;
-	func?: ()=> void;
+	func?: () => void;
 };
 
-export default function SendBtn({ text, sty, bgcolor = style.c1, func }: Props) {
+export default function SendBtn({
+	text,
+	sty,
+	bgcolor = style.c1,
+	func,
+}: Props) {
 	return (
 		<TouchableOpacity
 			style={[
@@ -22,7 +27,7 @@ export default function SendBtn({ text, sty, bgcolor = style.c1, func }: Props) 
 				{
 					backgroundColor: bgcolor,
 				},
-				sty
+				sty,
 			]}
 			onPress={func}
 		>

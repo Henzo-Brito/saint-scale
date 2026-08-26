@@ -1,10 +1,10 @@
-import ContinueBtn from "@/components/auth/continueBtn";
-import SendBtn from "@/components/auth/sendBtn";
-import style from "@/constants/styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import ContinueBtn from "@/components/auth/continueBtn";
+import SendBtn from "@/components/auth/sendBtn";
+import style from "@/constants/styles";
 
 const pages = [
 	{

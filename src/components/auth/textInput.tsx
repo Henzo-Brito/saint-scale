@@ -1,43 +1,33 @@
-import style from "@/constants/styles";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { Eye, EyeOff } from "lucide-react-native";
 import { useState } from "react";
 import {
-	Platform,
 	Pressable,
-	StyleProp,
+	type StyleProp,
 	StyleSheet,
-	Text,
 	TextInput,
 	type TextStyle,
-	TouchableOpacity,
 	View,
 } from "react-native";
-import Alert from "../home/alert";
+import style from "@/constants/styles";
 
-type InputType =
-	| "text"
-	| "email"
-	| "password"
-	| "phone"
-	| "date";
+type InputType = "text" | "email" | "password" | "phone" | "date";
 
 type Props = {
 	placeholder: string;
 	type?: InputType;
 	sty?: StyleProp<TextStyle>;
-	onChange?: (str:string)=>void;
+	onChange?: (str: string) => void;
 };
 
 export default function TextInputComponent({
 	placeholder,
 	type = "text",
-	onChange = (str:string)=>{},
+	onChange = () => {},
 	sty,
 }: Props) {
-	const [showPassword, setShowPassword] = useState(false);	
-	const [date, setDate] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
 	const [phone, setPhone] = useState("");
+	const [date, setDate] = useState("");
 
 	const isPassword = type === "password";
 	const isPhone = type === "phone";
@@ -57,26 +47,46 @@ export default function TextInputComponent({
 		return `(${numbers.slice(0, 2)}) ${numbers.slice(
 			2,
 			7,
-		)}-${numbers.slice(7)}`;
-	}
-
-	function handlePhoneChange(value: string) {
-		setPhone(formatPhone(value));
+		)}-${numbers.slice(7, 11)}`;
 	}
 
 	function formatDate(value: string) {
 		const numbers = value.replace(/\D/g, "").slice(0, 8);
+
 		if (numbers.length <= 2) {
 			return numbers;
 		}
+
 		if (numbers.length <= 4) {
 			return `${numbers.slice(0, 2)}/${numbers.slice(2)}`;
 		}
-		return `${numbers.slice(0, 2)}/${numbers.slice(2, 4)}/${numbers.slice(4)}`;
+
+		return `${numbers.slice(0, 2)}/${numbers.slice(
+			2,
+			4,
+		)}/${numbers.slice(4, 8)}`;
 	}
-	
-	function handleDateChange(value: string) {
-		setDate(formatDate(value));
+
+	function handleChange(value: string) {
+		if (isPhone) {
+			const formatted = formatPhone(value);
+
+			setPhone(formatted);
+			onChange(formatted);
+
+			return;
+		}
+
+		if (isDate) {
+			const formatted = formatDate(value);
+
+			setDate(formatted);
+			onChange(formatted);
+
+			return;
+		}
+
+		onChange(value);
 	}
 
 	return (
@@ -91,49 +101,23 @@ export default function TextInputComponent({
 							? "phone-pad"
 							: "default"
 				}
-				secureTextEntry={
-					isPassword && !showPassword
-				}
-				autoCapitalize={
-					type === "email"
-						? "none"
-						: "sentences"
-				}
-				autoCorrect={
-					type !== "email" &&
-					type !== "password"
-				}
+				secureTextEntry={isPassword && !showPassword}
+				autoCapitalize={type === "email" ? "none" : "sentences"}
+				autoCorrect={type !== "email" && type !== "password"}
 				value={isPhone ? phone : isDate ? date : undefined}
-				onChangeText={(i)=>{
-					if(isPhone){
-						handlePhoneChange(i) 		
-					}else if(isDate){
-						handleDateChange(i)
-					}
-					onChange(i)
-				}}
+				onChangeText={handleChange}
 				style={[styles.input, sty]}
 			/>
 
 			{isPassword && (
 				<Pressable
-					onPress={() =>
-						setShowPassword(
-							(prev) => !prev,
-						)
-					}
+					onPress={() => setShowPassword((prev) => !prev)}
 					style={styles.eyeButton}
 				>
 					{showPassword ? (
-						<EyeOff
-							size={24}
-							color={style.c9}
-						/>
+						<EyeOff size={24} color={style.c9} />
 					) : (
-						<Eye
-							size={24}
-							color={style.c9}
-						/>
+						<Eye size={24} color={style.c9} />
 					)}
 				</Pressable>
 			)}
@@ -165,26 +149,5 @@ const styles = StyleSheet.create({
 	eyeButton: {
 		paddingHorizontal: 16,
 		paddingVertical: 10,
-	},
-
-	dateContainer: {
-		width: "100%",
-		minHeight: 58,
-		borderRadius: 18,
-		paddingHorizontal: 14,
-		borderWidth: 2,
-		borderColor: style.c9,
-		justifyContent: "center",
-	},
-
-	dateText: {
-		fontSize: 20,
-		fontWeight: "500",
-		color: style.c4,
-		fontFamily: style.font1,
-	},
-
-	placeholder: {
-		color: style.c9,
 	},
 });
