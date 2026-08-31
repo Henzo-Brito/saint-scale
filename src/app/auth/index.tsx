@@ -11,7 +11,8 @@ const pages = [
 		image: require("@/assets/auth/1.png"),
 		label: "COMECE AGORA",
 		title: "SaintScale",
-		subtitle: "Seu app para gerenciar escalas de forma simples e organizada.",
+		subtitle:
+			"Seu app para gerenciar, organizar escalas de forma simples e organizada.",
 		footer: "Organize. Compartilhe. Simplifique.",
 	},
 
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
 
 	registerButton: {
 		width: "100%",
-		backgroundColor: style.c5,
+		backgroundColor: style.c3,
 	},
 
 	footer: {

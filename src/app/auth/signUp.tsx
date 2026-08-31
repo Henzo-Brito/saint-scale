@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -10,7 +11,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import z from "zod";
-import { useMutation } from "@tanstack/react-query";
 
 import SendBtn from "@/components/auth/sendBtn";
 import TextInput from "@/components/auth/textInput";
@@ -77,19 +77,22 @@ export default function Register() {
 	const [passwordVerify, setPasswordVerify] = useState("");
 
 	const [errors, setErrors] = useState<FormErrors>({});
-	const [passwordErrors, setPasswordErrors] =
-		useState<PasswordErrors>(initialPasswordErrors);
+	const [passwordErrors, setPasswordErrors] = useState<PasswordErrors>(
+		initialPasswordErrors,
+	);
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: createUser,
 
 		onSuccess: (data) => {
-			setStatus("Usuário criado com sucesso, redirecionando..")
-			setTimeout(()=>{router.push("/auth/login")},1000)
+			setStatus("Usuário criado com sucesso, redirecionando..");
+			setTimeout(() => {
+				router.push("/auth/login");
+			}, 1000);
 		},
 
 		onError: (error: any) => {
-			setStatus("Erro ao cadastrar usuário:")
+			setStatus(`Erro ao cadastrar usuário: ${error}`);
 		},
 	});
 
@@ -223,17 +226,11 @@ export default function Register() {
 
 								<TextInput
 									placeholder="Insira seu nome"
-									onChange={(value: string) =>
-										updateField("name", value)
-									}
+									onChange={(value: string) => updateField("name", value)}
 									type="text"
 								/>
 
-								{errors.name && (
-									<Text style={styles.error}>
-										{errors.name}
-									</Text>
-								)}
+								{errors.name && <Text style={styles.error}>{errors.name}</Text>}
 							</View>
 
 							<View style={styles.field}>
@@ -241,37 +238,25 @@ export default function Register() {
 
 								<TextInput
 									placeholder="Insira seu melhor email"
-									onChange={(value: string) =>
-										updateField("email", value)
-									}
+									onChange={(value: string) => updateField("email", value)}
 									type="email"
 								/>
 
 								{errors.email && (
-									<Text style={styles.error}>
-										{errors.email}
-									</Text>
+									<Text style={styles.error}>{errors.email}</Text>
 								)}
 							</View>
 
 							<View style={styles.field}>
-								<Text style={styles.label}>
-									Data de nascimento
-								</Text>
+								<Text style={styles.label}>Data de nascimento</Text>
 
 								<TextInput
 									type="date"
 									placeholder="DD/MM/AAAA"
-									onChange={(value: string) =>
-										updateField("date", value)
-									}
+									onChange={(value: string) => updateField("date", value)}
 								/>
 
-								{errors.date && (
-									<Text style={styles.error}>
-										{errors.date}
-									</Text>
-								)}
+								{errors.date && <Text style={styles.error}>{errors.date}</Text>}
 							</View>
 
 							<View style={styles.field}>
@@ -280,23 +265,16 @@ export default function Register() {
 								<TextInput
 									type="phone"
 									placeholder="(00) 00000-0000"
-									onChange={(value: string) =>
-										updateField("telephone", value)
-									}
+									onChange={(value: string) => updateField("telephone", value)}
 								/>
 
 								{errors.telephone && (
-									<Text style={styles.error}>
-										{errors.telephone}
-									</Text>
+									<Text style={styles.error}>{errors.telephone}</Text>
 								)}
 							</View>
 
 							<View style={styles.button}>
-								<SendBtn
-									func={setSecondPage}
-									text="Continuar"
-								/>
+								<SendBtn func={setSecondPage} text="Continuar" />
 							</View>
 						</View>
 					) : (
@@ -314,23 +292,16 @@ export default function Register() {
 								/>
 
 								<Text style={styles.error}>
-									{!passwordErrors.hasLowercase &&
-										"• Uma letra minúscula\n"}
-									{!passwordErrors.hasUppercase &&
-										"• Uma letra maiúscula\n"}
-									{!passwordErrors.hasNumber &&
-										"• Um número\n"}
-									{!passwordErrors.hasSpecial &&
-										"• Um caractere especial\n"}
-									{passwordErrors.hasSpace &&
-										"• Não pode conter espaços"}
+									{!passwordErrors.hasLowercase && "• Uma letra minúscula\n"}
+									{!passwordErrors.hasUppercase && "• Uma letra maiúscula\n"}
+									{!passwordErrors.hasNumber && "• Um número\n"}
+									{!passwordErrors.hasSpecial && "• Um caractere especial\n"}
+									{passwordErrors.hasSpace && "• Não pode conter espaços"}
 								</Text>
 							</View>
 
 							<View style={styles.field}>
-								<Text style={styles.label}>
-									Confirmar senha
-								</Text>
+								<Text style={styles.label}>Confirmar senha</Text>
 
 								<TextInput
 									placeholder="Confirme sua senha"
@@ -340,12 +311,9 @@ export default function Register() {
 									type="password"
 								/>
 
-								{passwordVerify.length > 0 &&
-									!passwordsMatch && (
-										<Text style={styles.error}>
-											As senhas não coincidem.
-										</Text>
-									)}
+								{passwordVerify.length > 0 && !passwordsMatch && (
+									<Text style={styles.error}>As senhas não coincidem.</Text>
+								)}
 							</View>
 
 							<View style={styles.button}>
@@ -355,7 +323,14 @@ export default function Register() {
 								/>
 							</View>
 
-							<Text style={[styles.status, {color: isPending ? "green" : style.c5 }]}>{isPending ? "Carregando..." : status}</Text>
+							<Text
+								style={[
+									styles.status,
+									{ color: isPending ? "green" : style.c5 },
+								]}
+							>
+								{isPending ? "Carregando..." : status}
+							</Text>
 						</View>
 					)}
 
@@ -440,7 +415,7 @@ const styles = StyleSheet.create({
 		marginTop: 8,
 	},
 
-	status:{
+	status: {
 		fontSize: 18,
 	},
 

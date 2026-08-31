@@ -1,13 +1,51 @@
 const img = require("@/assets/1.jpg");
 
-import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
-import { Image, StyleSheet, Text, View } from "react-native";
 import SendBtn from "@/components/auth/sendBtn";
 import TextInput from "@/components/auth/textInput";
 import style from "@/constants/styles";
+import { LoginSchema } from "@/schemas/auth.schemas";
+import { login } from "@/services/auth";
+import { useMutation } from "@tanstack/react-query";
+import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
+import { useState } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Login() {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
+
+	const loginMutation = useMutation({
+		mutationFn: login,
+
+		onSuccess: async (data) => {
+
+			router.replace("/(tabs)");
+		},
+
+		onError: (error) => {
+			setError("Email ou Senha Inválidos");
+		},
+	});
+
+	function handleLogin() {
+		const result = LoginSchema.safeParse({
+			email,
+			password,
+		});
+
+		if (!result.success) {
+			const errors = result.error.flatten();
+
+			setError(`Coloque valores válidos` );
+
+			return;
+		}
+
+		loginMutation.mutate(result.data);
+	}
+
 	return (
 		<View style={styles.container}>
 			<LinearGradient
@@ -29,12 +67,22 @@ export default function Login() {
 				<View style={styles.form}>
 					<View style={styles.field}>
 						<Text style={styles.text}>Email</Text>
-						<TextInput placeholder="Insira seu email" type="email" />
+
+						<TextInput
+							onChange={(str) => setEmail(str)}
+							placeholder="Insira seu email"
+							type="email"
+						/>
 					</View>
 
 					<View style={styles.field}>
 						<Text style={styles.text}>Senha</Text>
-						<TextInput placeholder="Insira sua senha" type="password" />
+
+						<TextInput
+							onChange={(str) => setPassword(str)}
+							placeholder="Insira sua senha"
+							type="password"
+						/>
 					</View>
 
 					<Text
@@ -45,8 +93,17 @@ export default function Login() {
 					>
 						Esqueceu a senha?
 					</Text>
+					<Text
+						style={styles.status}
+					>
+						{error}
+					</Text>
+					<SendBtn
+						text={loginMutation.isPending ? "Entrando..." : "Entrar"}
+						func={handleLogin}
+						sty={styles.button}
+					/>
 
-					<SendBtn text="Entrar" sty={styles.button} />
 				</View>
 
 				<Text style={styles.register}>
@@ -72,7 +129,7 @@ const styles = StyleSheet.create({
 	},
 
 	top: {
-		height: "48%",
+		height: "44%",
 		width: "100%",
 		alignItems: "center",
 		justifyContent: "center",
@@ -109,6 +166,12 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 28,
 		paddingTop: 32,
 		paddingBottom: 25,
+	},
+
+	status: {
+		fontSize: 18,
+		color: style.c10,
+		height: 18
 	},
 
 	title: {
