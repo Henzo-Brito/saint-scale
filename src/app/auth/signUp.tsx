@@ -211,6 +211,7 @@ export default function Register() {
 					showsVerticalScrollIndicator={false}
 					keyboardShouldPersistTaps="handled"
 				>
+					<View style={styles.inner}>
 					<View style={styles.header}>
 						<Text style={styles.title}>Cadastre-se!</Text>
 
@@ -345,6 +346,7 @@ export default function Register() {
 							</Text>
 						</Text>
 					</View>
+				</View>
 				</ScrollView>
 			</KeyboardAvoidingView>
 		</SafeAreaView>
@@ -363,10 +365,19 @@ const styles = StyleSheet.create({
 
 	scroll: {
 		flexGrow: 1,
+		alignItems: "center",
+		paddingTop: 0,
+		paddingBottom: 0,
+		width: "100%",
+	},
+
+	inner: {
+		width: "100%",
+		maxWidth: 480,
+		flexGrow: 1,
 		paddingHorizontal: 28,
 		paddingTop: 70,
 		paddingBottom: 20,
-		width: "100%",
 	},
 
 	header: {

@@ -64,19 +64,19 @@ export default function Scales({
 			<View style={style.persons}>{setPersons()}</View>
 			<View style={style.status}>
 				<Infos
-					color={sty.c4}
+					color={sty.c6}
 					icon={UserRound}
 					width={50}
 					title={status.persons.toString()}
 				></Infos>
 				<Infos
-					color={sty.c4}
+					color={sty.c6}
 					icon={UserRoundCheck}
 					width={50}
 					title={status.confirmed.toString()}
 				></Infos>
 				<Infos
-					color={sty.c4}
+					color={sty.c6}
 					icon={Music}
 					width={50}
 					title={status.songs.toString()}
@@ -93,7 +93,6 @@ const style = StyleSheet.create({
 		padding: 10,
 		width: 250,
 		gap: 5,
-		maxWidth: 350,
 	},
 	header: {
 		flexDirection: "row",
@@ -113,7 +112,7 @@ const style = StyleSheet.create({
 	},
 	title: {
 		color: sty.c6,
-		fontWeight: 600,
+		fontWeight: 900,
 		fontSize: 23,
 	},
 	persons: {

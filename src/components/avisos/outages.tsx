@@ -17,11 +17,12 @@ type Props = {
 	/* img: ImageSourcePropType; */
 	functions: string;
 	subTitle: string;
+	funct: () => void
 };
 
-export default function Outages({ title, subTitle, functions }: Props) {
+export default function Outages({ title, subTitle, functions, funct }: Props) {
 	return (
-		<TouchableOpacity style={style.container}>
+		<TouchableOpacity onPress={funct} style={style.container}>
 			<View style={style.size}>
 				{/* <Image style={style.img} source={img} /> */}
 				<FontAwesomeIcon icon={faBullhorn} size={48} color={sty.c1} />
@@ -46,7 +47,8 @@ const style = StyleSheet.create({
 		padding: 12,
 		backgroundColor: sty.c8,
 		borderRadius: 10,
-		width: 319,
+		width: 250,
+		maxWidth: 250,
 		gap: 7,
 	},
 	/* 
@@ -61,7 +63,7 @@ const style = StyleSheet.create({
 		alignItems: "center",
 	},
 	title: {
-		fontWeight: 600,
+		fontWeight: 700,
 		fontSize: 24,
 		overflow: "hidden",
 		color: sty.c4,
@@ -70,6 +72,6 @@ const style = StyleSheet.create({
 		fontWeight: 500,
 		fontSize: 14,
 		overflow: "hidden",
-		color: sty.c5,
+		color: sty.c4,
 	},
 });

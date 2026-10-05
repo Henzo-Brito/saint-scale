@@ -138,8 +138,10 @@ const styles = StyleSheet.create({
 		padding: 5,
 		borderRadius: 20,
 		width: "100%",
-		borderWidth: 2,
 		maxWidth: 500,
+		alignSelf: "center",
+		borderWidth: 2,
 		borderColor: style.c5,
+		overflow: "hidden",
 	},
 });

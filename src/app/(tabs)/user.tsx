@@ -29,8 +29,8 @@ export default function Index() {
 					</TouchableOpacity>
 					<Image source={require("@/assets/hz.jpg")} style={style.photo} />
 				</View>
-				<View style={{ width: 200, gap: 6 }}>
-					<Text style={style.name}>Henzo Brito dos Santos</Text>
+				<View style={{ flex: 1, gap: 6, overflow: "hidden" }}>
+					<Text style={style.name} numberOfLines={2}>Henzo Brito dos Santos</Text>
 					<Text style={style.register}>Registro: 13/10/2026</Text>
 				</View>
 			</View>
@@ -107,7 +107,7 @@ const style = StyleSheet.create({
 	},
 	name: {
 		color: sty.c4,
-		fontSize: 32,
+		fontSize: 27,
 		fontWeight: 700,
 	},
 	register: {

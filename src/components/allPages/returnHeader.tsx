@@ -37,10 +37,7 @@ const style = StyleSheet.create({
 		padding: 15,
 		alignItems: "center",
 		justifyContent: "space-between",
-		backgroundColor: sty.c6,
-		position: "fixed",
 		width: "100%",
-		top: 0,
 	},
 	title: {
 		fontSize: 18,

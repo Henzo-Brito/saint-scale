@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import ContinueBtn from "@/components/auth/continueBtn";
 import SendBtn from "@/components/auth/sendBtn";
 import style from "@/constants/styles";
@@ -46,6 +46,7 @@ const pages = [
 
 export default function Index() {
 	const [idPage, setIdPage] = useState(0);
+	const { width } = useWindowDimensions();
 
 	const page = pages[idPage];
 
@@ -64,67 +65,87 @@ export default function Index() {
 	}
 
 	return (
-		<View style={styles.container}>
-			<LinearGradient
-				colors={[style.c3, style.c1]}
-				start={{ x: 0, y: 0 }}
-				end={{ x: 1, y: 1 }}
-				style={styles.top}
-			>
-				<View style={styles.imageContainer}>
-					<Image source={page.image} style={styles.img} resizeMode="contain" />
-				</View>
-			</LinearGradient>
+		<ScrollView
+			style={styles.scrollRoot}
+			contentContainerStyle={styles.scrollContent}
+			showsVerticalScrollIndicator={false}
+		>
+			<View style={styles.container}>
+				<LinearGradient
+					colors={[style.c3, style.c1]}
+					start={{ x: 0, y: 0 }}
+					end={{ x: 1, y: 1 }}
+					style={styles.top}
+				>
+					<View style={styles.imageContainer}>
+						<Image source={page.image} style={styles.img} resizeMode="contain" />
+					</View>
+				</LinearGradient>
 
-			<View style={styles.content}>
-				<View style={styles.textContainer}>
-					<Text style={styles.text}>{page.label}</Text>
+				<View style={styles.content}>
+					<View style={styles.textContainer}>
+						<Text style={styles.text}>{page.label}</Text>
 
-					<Text style={styles.title}>
-						{page.title}
-						<Text style={styles.dot}>.</Text>
-					</Text>
+						<Text style={styles.title}>
+							{page.title}
+							<Text style={styles.dot}>.</Text>
+						</Text>
 
-					<Text style={styles.subtitle}>{page.subtitle}</Text>
-				</View>
+						<Text style={styles.subtitle}>{page.subtitle}</Text>
+					</View>
 
-				<View style={styles.buttonContainer}>
-					{idPage === 3 ? (
-						<View style={styles.finalButtons}>
-							<SendBtn
-								text="Entrar"
-								sty={styles.loginButton}
-								func={handleLogin}
+					<View style={styles.buttonContainer}>
+						{idPage === 3 ? (
+							<View style={styles.finalButtons}>
+								<SendBtn
+									text="Entrar"
+									sty={styles.loginButton}
+									func={handleLogin}
+								/>
+
+								<SendBtn
+									text="Cadastrar"
+									sty={styles.registerButton}
+									func={handleRegister}
+								/>
+							</View>
+						) : (
+							<ContinueBtn
+								text="Continuar"
+								sty={styles.button}
+								func={handleContinue}
 							/>
+						)}
+					</View>
 
-							<SendBtn
-								text="Cadastrar"
-								sty={styles.registerButton}
-								func={handleRegister}
-							/>
-						</View>
-					) : (
-						<ContinueBtn
-							text="Continuar"
-							sty={styles.button}
-							func={handleContinue}
-						/>
-					)}
+					<Text style={styles.footer}>{page.footer}</Text>
 				</View>
-
-				<Text style={styles.footer}>{page.footer}</Text>
 			</View>
-		</View>
+		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
+	scrollRoot: {
 		flex: 1,
 		backgroundColor: style.c6,
 	},
 
+	scrollContent: {
+		flexGrow: 1,
+		alignItems: "center",
+	},
+
+	container: {
+		flex: 1,
+		width: "100%",
+		maxWidth: 480,
+		minHeight: "100%",
+		backgroundColor: style.c6,
+	},
+
 	top: {
+		minHeight: 260,
 		height: "52%",
 		width: "100%",
 		alignItems: "center",
@@ -138,6 +159,7 @@ const styles = StyleSheet.create({
 		width: "85%",
 		maxWidth: 400,
 		height: "85%",
+		minHeight: 200,
 		alignItems: "center",
 		justifyContent: "center",
 	},

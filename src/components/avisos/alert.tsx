@@ -37,8 +37,9 @@ const styles = StyleSheet.create({
 		padding: 15,
 	},
 	text: {
-		color: style.c5,
-		fontSize: 13,
+		color: style.c1,
+		fontSize: 15,
+		fontWeight: 700,
 		overflow: "hidden",
 	},
 	title: {

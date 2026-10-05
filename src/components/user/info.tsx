@@ -133,9 +133,11 @@ const style = StyleSheet.create({
         flexDirection: "row",
     },
     boxSize: {
+        flex: 1,
         flexDirection: "row",
         gap: 18,
         alignItems: "center",
+        overflow: "hidden",
     },
     boxEdit: {
         position: "absolute",
@@ -143,7 +145,7 @@ const style = StyleSheet.create({
     },
     title: {
         flex: 1,
-        maxWidth: 250,
+        minWidth: 0,
         fontWeight: 600,
         fontSize: 16,
         overflow: "hidden",

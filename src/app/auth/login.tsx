@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -47,88 +47,109 @@ export default function Login() {
 	}
 
 	return (
-		<View style={styles.container}>
-			<LinearGradient
-				colors={[style.c3, style.c1]}
-				start={{ x: 0, y: 0 }}
-				end={{ x: 1, y: 1 }}
-				style={styles.top}
-			>
-				<View style={styles.imageContainer}>
-					<Image source={img} style={styles.img} />
-				</View>
-			</LinearGradient>
+		<ScrollView
+			style={styles.scrollRoot}
+			contentContainerStyle={styles.scrollContent}
+			showsVerticalScrollIndicator={false}
+			keyboardShouldPersistTaps="handled"
+		>
+			<View style={styles.container}>
+				<LinearGradient
+					colors={[style.c3, style.c1]}
+					start={{ x: 0, y: 0 }}
+					end={{ x: 1, y: 1 }}
+					style={styles.top}
+				>
+					<View style={styles.imageContainer}>
+						<Image source={img} style={styles.img} />
+					</View>
+				</LinearGradient>
 
-			<View style={styles.bottom}>
-				<Text style={styles.title}>Bem-vindo de volta!</Text>
+				<View style={styles.bottom}>
+					<Text style={styles.title}>Bem-vindo de volta!</Text>
 
-				<Text style={styles.subtitle}>Entre na sua conta para continuar.</Text>
+					<Text style={styles.subtitle}>Entre na sua conta para continuar.</Text>
 
-				<View style={styles.form}>
-					<View style={styles.field}>
-						<Text style={styles.text}>Email</Text>
+					<View style={styles.form}>
+						<View style={styles.field}>
+							<Text style={styles.text}>Email</Text>
 
-						<TextInput
-							onChange={(str) => setEmail(str)}
-							placeholder="Insira seu email"
-							type="email"
+							<TextInput
+								onChange={(str) => setEmail(str)}
+								placeholder="Insira seu email"
+								type="email"
+							/>
+						</View>
+
+						<View style={styles.field}>
+							<Text style={styles.text}>Senha</Text>
+
+							<TextInput
+								onChange={(str) => setPassword(str)}
+								placeholder="Insira sua senha"
+								type="password"
+							/>
+						</View>
+
+						<Text
+							onPress={() => {
+								router.push("/auth/forgotPassword");
+							}}
+							style={styles.link}
+						>
+							Esqueceu a senha?
+						</Text>
+						<Text
+							style={styles.status}
+						>
+							{error}
+						</Text>
+						<SendBtn
+							text={loginMutation.isPending ? "Entrando..." : "Entrar"}
+							func={handleLogin}
+							sty={styles.button}
 						/>
+
 					</View>
 
-					<View style={styles.field}>
-						<Text style={styles.text}>Senha</Text>
-
-						<TextInput
-							onChange={(str) => setPassword(str)}
-							placeholder="Insira sua senha"
-							type="password"
-						/>
-					</View>
-
-					<Text
-						onPress={() => {
-							router.push("/auth/forgotPassword");
-						}}
-						style={styles.link}
-					>
-						Esqueceu a senha?
+					<Text style={styles.register}>
+						Ainda não possui uma conta?{" "}
+						<Text
+							onPress={() => {
+								router.push("/auth/signUp");
+							}}
+							style={styles.registerLink}
+						>
+							Cadastre-se
+						</Text>
 					</Text>
-					<Text
-						style={styles.status}
-					>
-						{error}
-					</Text>
-					<SendBtn
-						text={loginMutation.isPending ? "Entrando..." : "Entrar"}
-						func={handleLogin}
-						sty={styles.button}
-					/>
-
 				</View>
-
-				<Text style={styles.register}>
-					Ainda não possui uma conta?{" "}
-					<Text
-						onPress={() => {
-							router.push("/auth/signUp");
-						}}
-						style={styles.registerLink}
-					>
-						Cadastre-se
-					</Text>
-				</Text>
 			</View>
-		</View>
+		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
+	scrollRoot: {
 		flex: 1,
 		backgroundColor: style.c6,
 	},
 
+	scrollContent: {
+		flexGrow: 1,
+		alignItems: "center",
+	},
+
+	container: {
+		flex: 1,
+		width: "100%",
+		maxWidth: 480,
+		minHeight: "100%",
+		backgroundColor: style.c6,
+	},
+
 	top: {
+		minHeight: 220,
 		height: "44%",
 		width: "100%",
 		alignItems: "center",
@@ -228,7 +249,7 @@ const styles = StyleSheet.create({
 		color: style.c5,
 		fontFamily: style.font1,
 		opacity: 0.7,
-		marginTop: "auto",
+		marginTop: 30,
 	},
 
 	registerLink: {

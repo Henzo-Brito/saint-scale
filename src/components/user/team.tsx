@@ -34,7 +34,7 @@ export default function Team({ name, valPart, img }: Props) {
 
 const style = StyleSheet.create({
 	container: {
-		padding: 14,
+		padding: 10,
 		backgroundColor: sty.c1,
 		borderRadius: 10,
 		width: 242,
@@ -52,14 +52,14 @@ const style = StyleSheet.create({
         justifyContent: "center",
 	},
 	title: {
-		fontWeight: 600,
+		fontWeight: 700,
 		fontSize: 20,
 		overflow: "hidden",
 		color: sty.c6,
 	},
 	subTitle: {
-		fontWeight: 400,
-		fontSize: 11,
+		fontWeight: 600,
+		fontSize: 12,
 		overflow: "hidden",
 		color: sty.c6,
 	},

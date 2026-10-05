@@ -33,8 +33,8 @@ export default function Outages({ title, subTitle, img, yourFunc }: Props) {
 				</View>
 			</View>
 			<View style={style.size}>
-				<FontAwesomeIcon icon={faUserMinus} size={15} color={sty.c1} />
-				<Text style={[style.subTitle, { color: sty.c1, fontWeight: 500 }]}>{yourFunc}</Text>
+				<FontAwesomeIcon icon={faUserMinus} size={15} color={sty.c6} />
+				<Text style={[style.subTitle, { color: sty.c6, fontWeight: 800 }]}>{yourFunc}</Text>
 			</View>
 		</TouchableOpacity>
 	);
@@ -43,9 +43,10 @@ export default function Outages({ title, subTitle, img, yourFunc }: Props) {
 const style = StyleSheet.create({
 	container: {
 		padding: 10,
-		backgroundColor: sty.c8,
+		backgroundColor: sty.c1,
 		borderRadius: 10,
 		width: 200,
+		maxWidth: 200,
 		gap: 7,
 	},
 	img: {
@@ -59,15 +60,15 @@ const style = StyleSheet.create({
 		alignItems: "center",
 	},
 	title: {
-		fontWeight: 600,
-		fontSize: 16,
+		fontWeight: 900,
+		fontSize: 17,
 		overflow: "hidden",
-		color: sty.c4,
+		color: sty.c6,
 	},
 	subTitle: {
-		fontWeight: 300,
+		fontWeight: 800,
 		fontSize: 12,
 		overflow: "hidden",
-		color: sty.c4,
+		color: sty.c6,
 	},
 });

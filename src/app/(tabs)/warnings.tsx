@@ -21,18 +21,9 @@ export default function Index() {
 					title="Título do Alerta"
 					subTitle="2 setembro"
 					functions="Guitaristas e tecladistas"
-				/>
-				<Outages
-					/* img={require("@/assets/1.jpg")} */
-					title="Título do Alerta"
-					subTitle="2 setembro"
-					functions="Guitaristas e tecladistas"
-				/>
-				<Outages
-					/* img={require("@/assets/1.jpg")} */
-					title="Título do Alerta"
-					subTitle="2 setembro"
-					functions="Guitaristas e tecladistas"
+					funct={()=>{
+						router.push("/avisos/1")
+					}}
 				/>
 			</Section>
 

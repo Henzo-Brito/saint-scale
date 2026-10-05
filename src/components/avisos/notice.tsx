@@ -1,4 +1,8 @@
 /* import { UserRoundMinus } from "lucide-react-native"; */
+
+import sty from "@/constants/styles";
+import { faBell } from "@fortawesome/free-solid-svg-icons/faBell";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
 	/* Image,
 	type ImageSourcePropType, */
@@ -7,10 +11,6 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import sty from "@/constants/styles";
-
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons/faBell";
 
 type Props = {
 	title: string;
@@ -22,7 +22,7 @@ export default function Notice({ title, subTitle }: Props) {
 		<TouchableOpacity style={style.container}>
 			<View style={style.size}>
 				{/* <Image style={style.img} source={img} /> */}
-				<View style={{flexDirection: "row", gap: 18}}>
+				<View style={{ flexDirection: "row", gap: 18, flex: 1, alignItems: "center" }}>
 					<FontAwesomeIcon icon={faBell} size={30} color={sty.c5} />
 					<Text style={style.title} numberOfLines={1}>
 						{title}
@@ -42,24 +42,27 @@ const style = StyleSheet.create({
 		backgroundColor: sty.c8,
 		borderRadius: 10,
 		width: "100%",
-		gap: 7,
 	},
 	size: {
 		alignItems: "center",
 		flexDirection: "row",
-		gap: 62,
-		justifyContent: "space-around"
+		gap: 1,
+		width: "100%",
+		justifyContent: "space-between",
 	},
 	title: {
+		flex: 1,
 		fontWeight: 600,
-		fontSize: 21,
+		fontSize: 20,
 		overflow: "hidden",
 		color: sty.c4,
 	},
 	subTitle: {
-		fontWeight: 400,
-		fontSize: 12,
+		fontWeight: 700,
+		fontSize: 13,
+		flexShrink: 0,
 		overflow: "hidden",
 		color: sty.c1,
+		textAlign: "right",
 	},
 });
