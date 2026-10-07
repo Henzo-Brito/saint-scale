@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import ContinueBtn from "@/components/auth/continueBtn";
 import SendBtn from "@/components/auth/sendBtn";
 import style from "@/constants/styles";
@@ -46,7 +46,6 @@ const pages = [
 
 export default function Index() {
 	const [idPage, setIdPage] = useState(0);
-	const { width } = useWindowDimensions();
 
 	const page = pages[idPage];
 
@@ -78,7 +77,11 @@ export default function Index() {
 					style={styles.top}
 				>
 					<View style={styles.imageContainer}>
-						<Image source={page.image} style={styles.img} resizeMode="contain" />
+						<Image
+							source={page.image}
+							style={styles.img}
+							resizeMode="contain"
+						/>
 					</View>
 				</LinearGradient>
 

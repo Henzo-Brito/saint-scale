@@ -52,6 +52,7 @@ type PasswordErrors = {
 	hasNumber: boolean;
 	hasSpecial: boolean;
 	hasSpace: boolean;
+	hasMinLength: boolean;
 };
 
 const initialPasswordErrors: PasswordErrors = {
@@ -60,6 +61,7 @@ const initialPasswordErrors: PasswordErrors = {
 	hasNumber: false,
 	hasSpecial: false,
 	hasSpace: false,
+	hasMinLength: false,
 };
 
 export default function Register() {
@@ -84,15 +86,27 @@ export default function Register() {
 	const { mutate, isPending } = useMutation({
 		mutationFn: createUser,
 
-		onSuccess: (data) => {
+		onSuccess: (_data) => {
 			setStatus("Usuário criado com sucesso, redirecionando..");
 			setTimeout(() => {
 				router.push("/auth/login");
 			}, 1000);
 		},
 
-		onError: (error: any) => {
-			setStatus(`Erro ao cadastrar usuário: ${error}`);
+		onError: (error: unknown) => {
+			// Tenta extrair a mensagem de erro do corpo da resposta (ex: erros de validação do backend)
+			const axiosError = error as {
+				response?: { data?: { error?: { message?: string } | string } };
+				message?: string;
+			};
+			const bodyMsg =
+				axiosError.response?.data?.error &&
+				typeof axiosError.response.data.error === "object"
+					? axiosError.response.data.error.message
+					: typeof axiosError.response?.data?.error === "string"
+						? axiosError.response.data.error
+						: null;
+			setStatus(`Erro ao cadastrar usuário: ${bodyMsg ?? axiosError.message ?? "Erro desconhecido"}`);
 		},
 	});
 
@@ -108,6 +122,7 @@ export default function Register() {
 			!passwordErrors.hasLowercase ||
 			!passwordErrors.hasNumber ||
 			!passwordErrors.hasSpecial ||
+			!passwordErrors.hasMinLength ||
 			passwordErrors.hasSpace
 		) {
 			return;
@@ -118,7 +133,6 @@ export default function Register() {
 			email,
 			birth_date: date,
 			password,
-			role: "membro",
 			telephone,
 		});
 	}
@@ -164,6 +178,7 @@ export default function Register() {
 			hasNumber: /[0-9]/.test(value),
 			hasSpecial: /[^A-Za-z0-9\s]/.test(value),
 			hasSpace: /\s/.test(value),
+			hasMinLength: value.length >= 8,
 		});
 	}
 
@@ -212,141 +227,148 @@ export default function Register() {
 					keyboardShouldPersistTaps="handled"
 				>
 					<View style={styles.inner}>
-					<View style={styles.header}>
-						<Text style={styles.title}>Cadastre-se!</Text>
+						<View style={styles.header}>
+							<Text style={styles.title}>Cadastre-se!</Text>
 
-						<Text style={styles.subtitle}>
-							Preencha seus dados para criar sua conta.
-						</Text>
-					</View>
-
-					{page === 1 ? (
-						<View style={styles.form}>
-							<View style={styles.field}>
-								<Text style={styles.label}>Nome</Text>
-
-								<TextInput
-									placeholder="Insira seu nome"
-									onChange={(value: string) => updateField("name", value)}
-									type="text"
-								/>
-
-								{errors.name && <Text style={styles.error}>{errors.name}</Text>}
-							</View>
-
-							<View style={styles.field}>
-								<Text style={styles.label}>Email</Text>
-
-								<TextInput
-									placeholder="Insira seu melhor email"
-									onChange={(value: string) => updateField("email", value)}
-									type="email"
-								/>
-
-								{errors.email && (
-									<Text style={styles.error}>{errors.email}</Text>
-								)}
-							</View>
-
-							<View style={styles.field}>
-								<Text style={styles.label}>Data de nascimento</Text>
-
-								<TextInput
-									type="date"
-									placeholder="DD/MM/AAAA"
-									onChange={(value: string) => updateField("date", value)}
-								/>
-
-								{errors.date && <Text style={styles.error}>{errors.date}</Text>}
-							</View>
-
-							<View style={styles.field}>
-								<Text style={styles.label}>Telefone</Text>
-
-								<TextInput
-									type="phone"
-									placeholder="(00) 00000-0000"
-									onChange={(value: string) => updateField("telephone", value)}
-								/>
-
-								{errors.telephone && (
-									<Text style={styles.error}>{errors.telephone}</Text>
-								)}
-							</View>
-
-							<View style={styles.button}>
-								<SendBtn func={setSecondPage} text="Continuar" />
-							</View>
+							<Text style={styles.subtitle}>
+								Preencha seus dados para criar sua conta.
+							</Text>
 						</View>
-					) : (
-						<View style={styles.form}>
-							<View style={styles.field}>
-								<Text style={styles.label}>Senha</Text>
 
-								<TextInput
-									placeholder="Insira sua senha"
-									onChange={(value: string) => {
-										setPassword(value);
-										verifyPassword(value);
-									}}
-									type="password"
-								/>
+						{page === 1 ? (
+							<View style={styles.form}>
+								<View style={styles.field}>
+									<Text style={styles.label}>Nome</Text>
 
-								<Text style={styles.error}>
-									{!passwordErrors.hasLowercase && "• Uma letra minúscula\n"}
-									{!passwordErrors.hasUppercase && "• Uma letra maiúscula\n"}
-									{!passwordErrors.hasNumber && "• Um número\n"}
-									{!passwordErrors.hasSpecial && "• Um caractere especial\n"}
-									{passwordErrors.hasSpace && "• Não pode conter espaços"}
+									<TextInput
+										placeholder="Insira seu nome"
+										onChange={(value: string) => updateField("name", value)}
+										type="text"
+									/>
+
+									{errors.name && (
+										<Text style={styles.error}>{errors.name}</Text>
+									)}
+								</View>
+
+								<View style={styles.field}>
+									<Text style={styles.label}>Email</Text>
+
+									<TextInput
+										placeholder="Insira seu melhor email"
+										onChange={(value: string) => updateField("email", value)}
+										type="email"
+									/>
+
+									{errors.email && (
+										<Text style={styles.error}>{errors.email}</Text>
+									)}
+								</View>
+
+								<View style={styles.field}>
+									<Text style={styles.label}>Data de nascimento</Text>
+
+									<TextInput
+										type="date"
+										placeholder="DD/MM/AAAA"
+										onChange={(value: string) => updateField("date", value)}
+									/>
+
+									{errors.date && (
+										<Text style={styles.error}>{errors.date}</Text>
+									)}
+								</View>
+
+								<View style={styles.field}>
+									<Text style={styles.label}>Telefone</Text>
+
+									<TextInput
+										type="phone"
+										placeholder="(00) 00000-0000"
+										onChange={(value: string) =>
+											updateField("telephone", value)
+										}
+									/>
+
+									{errors.telephone && (
+										<Text style={styles.error}>{errors.telephone}</Text>
+									)}
+								</View>
+
+								<View style={styles.button}>
+									<SendBtn func={setSecondPage} text="Continuar" />
+								</View>
+							</View>
+						) : (
+							<View style={styles.form}>
+								<View style={styles.field}>
+									<Text style={styles.label}>Senha</Text>
+
+									<TextInput
+										placeholder="Insira sua senha"
+										onChange={(value: string) => {
+											setPassword(value);
+											verifyPassword(value);
+										}}
+										type="password"
+									/>
+
+									<Text style={styles.error}>
+										{!passwordErrors.hasMinLength && "• Mínimo 8 caracteres\n"}
+										{!passwordErrors.hasLowercase && "• Uma letra minúscula\n"}
+										{!passwordErrors.hasUppercase && "• Uma letra maiúscula\n"}
+										{!passwordErrors.hasNumber && "• Um número\n"}
+										{!passwordErrors.hasSpecial && "• Um caractere especial\n"}
+										{passwordErrors.hasSpace && "• Não pode conter espaços"}
+									</Text>
+								</View>
+
+								<View style={styles.field}>
+									<Text style={styles.label}>Confirmar senha</Text>
+
+									<TextInput
+										placeholder="Confirme sua senha"
+										onChange={(value: string) => {
+											setPasswordVerify(value);
+										}}
+										type="password"
+									/>
+
+									{passwordVerify.length > 0 && !passwordsMatch && (
+										<Text style={styles.error}>As senhas não coincidem.</Text>
+									)}
+								</View>
+
+								<View style={styles.button}>
+									<SendBtn
+										func={sendForm}
+										text={isPending ? "Cadastrando..." : "Cadastrar"}
+									/>
+								</View>
+
+								<Text
+									style={[
+										styles.status,
+										{ color: isPending ? "green" : style.c5 },
+									]}
+								>
+									{isPending ? "Carregando..." : status}
 								</Text>
 							</View>
+						)}
 
-							<View style={styles.field}>
-								<Text style={styles.label}>Confirmar senha</Text>
-
-								<TextInput
-									placeholder="Confirme sua senha"
-									onChange={(value: string) => {
-										setPasswordVerify(value);
-									}}
-									type="password"
-								/>
-
-								{passwordVerify.length > 0 && !passwordsMatch && (
-									<Text style={styles.error}>As senhas não coincidem.</Text>
-								)}
-							</View>
-
-							<View style={styles.button}>
-								<SendBtn
-									func={sendForm}
-									text={isPending ? "Cadastrando..." : "Cadastrar"}
-								/>
-							</View>
-
-							<Text
-								style={[
-									styles.status,
-									{ color: isPending ? "green" : style.c5 },
-								]}
-							>
-								{isPending ? "Carregando..." : status}
+						<View style={styles.footer}>
+							<Text style={styles.register}>
+								Já possui uma conta?{" "}
+								<Text
+									onPress={() => router.push("/auth/login")}
+									style={styles.registerLink}
+								>
+									Entrar
+								</Text>
 							</Text>
 						</View>
-					)}
-
-					<View style={styles.footer}>
-						<Text style={styles.register}>
-							Já possui uma conta?{" "}
-							<Text
-								onPress={() => router.push("/auth/login")}
-								style={styles.registerLink}
-							>
-								Entrar
-							</Text>
-						</Text>
 					</View>
-				</View>
 				</ScrollView>
 			</KeyboardAvoidingView>
 		</SafeAreaView>

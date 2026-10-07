@@ -1,15 +1,15 @@
 const img = require("@/assets/1.jpg");
 
-import SendBtn from "@/components/auth/sendBtn";
-import TextInput from "@/components/auth/textInput";
-import style from "@/constants/styles";
-import { LoginSchema } from "@/schemas/auth.schemas";
-import { login } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import SendBtn from "@/components/auth/sendBtn";
+import TextInput from "@/components/auth/textInput";
+import style from "@/constants/styles";
+import { LoginSchema } from "@/schemas/auth.schemas";
+import { login } from "@/services/auth";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -19,12 +19,11 @@ export default function Login() {
 	const loginMutation = useMutation({
 		mutationFn: login,
 
-		onSuccess: async (data) => {
-
+		onSuccess: async (_data) => {
 			router.replace("/(tabs)");
 		},
 
-		onError: (error) => {
+		onError: (_error) => {
 			setError("Email ou Senha Inválidos");
 		},
 	});
@@ -36,9 +35,9 @@ export default function Login() {
 		});
 
 		if (!result.success) {
-			const errors = result.error.flatten();
+			const _errors = result.error.flatten();
 
-			setError(`Coloque valores válidos` );
+			setError(`Coloque valores válidos`);
 
 			return;
 		}
@@ -68,7 +67,9 @@ export default function Login() {
 				<View style={styles.bottom}>
 					<Text style={styles.title}>Bem-vindo de volta!</Text>
 
-					<Text style={styles.subtitle}>Entre na sua conta para continuar.</Text>
+					<Text style={styles.subtitle}>
+						Entre na sua conta para continuar.
+					</Text>
 
 					<View style={styles.form}>
 						<View style={styles.field}>
@@ -99,17 +100,12 @@ export default function Login() {
 						>
 							Esqueceu a senha?
 						</Text>
-						<Text
-							style={styles.status}
-						>
-							{error}
-						</Text>
+						<Text style={styles.status}>{error}</Text>
 						<SendBtn
 							text={loginMutation.isPending ? "Entrando..." : "Entrar"}
 							func={handleLogin}
 							sty={styles.button}
 						/>
-
 					</View>
 
 					<Text style={styles.register}>
@@ -192,7 +188,7 @@ const styles = StyleSheet.create({
 	status: {
 		fontSize: 18,
 		color: style.c10,
-		height: 18
+		height: 18,
 	},
 
 	title: {

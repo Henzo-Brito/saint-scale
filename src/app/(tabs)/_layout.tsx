@@ -1,15 +1,12 @@
-import IconBtn from "@/components/iconBtn";
-import style from "@/constants/styles";
-import { router, Tabs } from "expo-router";
-import Header from "../../components/header";
-/* import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";*/
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons/faHouse";
 import { faBell } from "@fortawesome/free-solid-svg-icons/faBell";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons/faCircleUser";
+import { faHouse } from "@fortawesome/free-solid-svg-icons/faHouse";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { Tabs } from "expo-router";
+import Header from "@/components/header";
+import style from "@/constants/styles";
 
-
-export default function root() {
+export default function TabLayout() {
 	return (
 		<Tabs
 			screenOptions={{
@@ -19,11 +16,9 @@ export default function root() {
 					borderTopWidth: 0,
 					elevation: 0,
 					shadowOpacity: 0,
-					/* paddingBottom: 50,	
-					paddingTop: 10, */
 				},
-				tabBarActiveTintColor: style.c4,
-				tabBarInactiveTintColor: style.c5,
+				tabBarActiveTintColor: style.c4 as string,
+				tabBarInactiveTintColor: style.c5 as string,
 				tabBarLabelStyle: {
 					fontFamily: style.font1,
 					fontSize: 12,
@@ -38,7 +33,11 @@ export default function root() {
 						return <Header title="Início"></Header>;
 					},
 					tabBarIcon: ({ color, size }) => (
-						<FontAwesomeIcon icon={faHouse} size={size} color={color} strokeWidth={2.2} />
+						<FontAwesomeIcon
+							icon={faHouse}
+							size={size}
+							color={color as string}
+						/>
 					),
 				}}
 			/>
@@ -46,13 +45,14 @@ export default function root() {
 				name="warnings"
 				options={{
 					header: () => {
-						return (
-							<Header title="Avisos">
-							</Header>
-						);
+						return <Header title="Avisos"></Header>;
 					},
 					tabBarIcon: ({ color, size }) => (
-						<FontAwesomeIcon icon={faBell} size={size} color={color} strokeWidth={2.2} />
+						<FontAwesomeIcon
+							icon={faBell}
+							size={size}
+							color={color as string}
+						/>
 					),
 				}}
 			/>
@@ -60,13 +60,14 @@ export default function root() {
 				name="user"
 				options={{
 					header: () => {
-						return (
-							<Header title="Usuário">
-							</Header>
-						);
+						return <Header title="Usuário"></Header>;
 					},
 					tabBarIcon: ({ color, size }) => (
-						<FontAwesomeIcon icon={faCircleUser} size={size} color={color} strokeWidth={2.2} />
+						<FontAwesomeIcon
+							icon={faCircleUser}
+							size={size}
+							color={color as string}
+						/>
 					),
 				}}
 			/>

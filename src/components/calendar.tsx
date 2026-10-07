@@ -2,46 +2,18 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Calendar, type DateData, LocaleConfig } from "react-native-calendars";
 import style from "@/constants/styles";
+import {
+	MONTH_NAMES,
+	MONTH_NAMES_SHORT,
+	WEEKDAY_NAMES,
+	WEEKDAY_NAMES_SHORT,
+} from "@/utils/date";
 
 LocaleConfig.locales["pt-br"] = {
-	monthNames: [
-		"Janeiro",
-		"Fevereiro",
-		"Março",
-		"Abril",
-		"Maio",
-		"Junho",
-		"Julho",
-		"Agosto",
-		"Setembro",
-		"Outubro",
-		"Novembro",
-		"Dezembro",
-	],
-	monthNamesShort: [
-		"Jan",
-		"Fev",
-		"Mar",
-		"Abr",
-		"Mai",
-		"Jun",
-		"Jul",
-		"Ago",
-		"Set",
-		"Out",
-		"Nov",
-		"Dez",
-	],
-	dayNames: [
-		"Domingo",
-		"Segunda-feira",
-		"Terça-feira",
-		"Quarta-feira",
-		"Quinta-feira",
-		"Sexta-feira",
-		"Sábado",
-	],
-	dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+	monthNames: [...MONTH_NAMES],
+	monthNamesShort: [...MONTH_NAMES_SHORT],
+	dayNames: [...WEEKDAY_NAMES],
+	dayNamesShort: [...WEEKDAY_NAMES_SHORT],
 };
 
 LocaleConfig.defaultLocale = "pt-br";
@@ -113,17 +85,17 @@ export default function CustomCalendar({
 				theme={{
 					backgroundColor: "rgba(0, 0, 0, 0)",
 					calendarBackground: "rgba(0, 0, 0, 0)",
-					textSectionTitleColor: style.c2, // Cor dos dias da semana (Dom, Seg...)
-					selectedDayBackgroundColor: style.c2, // Fundo do dia selecionado (padrão)
+					textSectionTitleColor: style.c2,
+					selectedDayBackgroundColor: style.c2,
 					selectedDayTextColor: style.c4,
-					todayTextColor: style.c3, // Cor do texto do dia de hoje
-					dayTextColor: style.c4, // Cor do texto dos dias normais
-					textDisabledColor: style.c2, // Cor dos dias do mês anterior/próximo
-					dotColor: style.c4, // Cor da bolinha de compromisso padrão
-					arrowColor: style.c4, // Cor das setas de navegar nos meses
-					monthTextColor: style.c4, // Cor do título do mês (Ex: Junho 2026)
-					textDayFontSize: 18, // Tamanho da fonte dos dias
-					textMonthFontSize: 22, // Tamanho da fonte do mês
+					todayTextColor: style.c3,
+					dayTextColor: style.c4,
+					textDisabledColor: style.c2,
+					dotColor: style.c4,
+					arrowColor: style.c4,
+					monthTextColor: style.c4,
+					textDayFontSize: 18,
+					textMonthFontSize: 22,
 					textDayFontWeight: 400,
 					textMonthFontWeight: 600,
 					textDayHeaderFontWeight: 700,

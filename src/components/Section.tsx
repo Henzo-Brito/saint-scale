@@ -10,32 +10,38 @@ import sty from "@/constants/styles";
 
 type Props = {
 	title: string;
+	/** Sufixo opcional exibido após o título (ex.: nome do mês). */
+	mes?: string;
 	btnTitle?: string;
-	func: () => void;
+	/** Tamanho da fonte do título. Padrão: 18. */
+	titleSize?: number;
+	onPress: () => void;
 	children: ReactNode;
-
 };
 
 export default function Section({
 	title,
+	mes,
 	btnTitle = "ver todos >",
-	func,
+	titleSize = 18,
+	onPress,
 	children,
 }: Props) {
 	return (
-		<View style={style.container}>
-			<View style={style.topper}>
-				<Text style={style.title} numberOfLines={1}>
+		<View style={styles.container}>
+			<View style={styles.topper}>
+				<Text style={[styles.title, { fontSize: titleSize }]} numberOfLines={1}>
 					{title}
+					{mes}
 				</Text>
-				<TouchableOpacity onPress={func}>
-					<Text style={style.btnText} numberOfLines={1}>
+				<TouchableOpacity onPress={onPress}>
+					<Text style={styles.btnText} numberOfLines={1}>
 						{btnTitle}
 					</Text>
 				</TouchableOpacity>
 			</View>
 			<ScrollView
-				contentContainerStyle={style.children}
+				contentContainerStyle={styles.children}
 				horizontal={true}
 				showsHorizontalScrollIndicator={false}
 			>
@@ -45,7 +51,7 @@ export default function Section({
 	);
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		width: "100%",
 		columnGap: 15,
@@ -53,13 +59,11 @@ const style = StyleSheet.create({
 	},
 	title: {
 		color: sty.c4,
-		fontWeight: 600,
-		fontSize: 18,
+		fontWeight: "600",
 		flex: 1,
 		overflow: "hidden",
 	},
 	topper: {
-		display: "flex",
 		alignItems: "center",
 		justifyContent: "space-between",
 		flexDirection: "row",
@@ -70,7 +74,7 @@ const style = StyleSheet.create({
 		color: sty.c5,
 		overflow: "hidden",
 		fontFamily: sty.font1,
-		fontWeight: 900,
+		fontWeight: "900",
 		textAlign: "right",
 		fontSize: 16,
 	},

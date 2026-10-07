@@ -41,15 +41,15 @@ const style = StyleSheet.create({
 		gap: 7,
 	},
 	img: {
-        width: 52,
+		width: 52,
 		height: 52,
 		borderRadius: 5,
 	},
 	size: {
-        flexDirection: "row",
+		flexDirection: "row",
 		gap: 12,
 		alignItems: "center",
-        justifyContent: "center",
+		justifyContent: "center",
 	},
 	title: {
 		fontWeight: 700,

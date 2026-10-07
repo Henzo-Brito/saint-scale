@@ -1,9 +1,5 @@
-import type { Person } from "./person.type";
-
-export type Aviso = {
-	idAviso: string;
-	title: string;
-	desc: string;
-	date: string;
-	persons: Person[];
-};
+/**
+ * @deprecated O tipo Aviso foi substituído por ReminderDetail em src/types/api.types.ts,
+ * alinhado com o contrato real do endpoint GET /alert/reminder/{id}.
+ * Novos desenvolvimentos devem usar ReminderDetail de api.types.ts.
+ */

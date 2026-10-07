@@ -1,7 +1,9 @@
-export enum Mounth {
+/** Meses do ano em português. Usado nos cards de escala. */
+export enum Month {
 	Janeiro = "Janeiro",
 	Fevereiro = "Fevereiro",
-	Março = "Março",
+	/** Alias sem cedilha para compatibilidade com chaves de mapa baseadas em nomes de API. */
+	Marco = "Março",
 	Abril = "Abril",
 	Maio = "Maio",
 	Junho = "Junho",
@@ -13,23 +15,28 @@ export enum Mounth {
 	Dezembro = "Dezembro",
 }
 
+/** Dias da semana em português. Usado nos cards de escala. */
 export enum WeekDay {
 	Domingo = "Domingo",
 	Segunda = "Segunda",
-	Terça = "Terça",
+	/** Alias sem cedilha para compatibilidade com chaves de mapa. */
+	Terca = "Terça",
 	Quarta = "Quarta",
 	Quinta = "Quinta",
 	Sexta = "Sexta",
-	Sábado = "Sábado",
+	/** Alias sem acento para compatibilidade com chaves de mapa. */
+	Sabado = "Sábado",
 }
 
-export type Date = {
+/** Data de uma escala, com dia da semana, dia do mês, mês e horário. */
+export type ScaleDate = {
 	Day: number;
-	Mounth: Mounth;
+	Month: Month;
 	WeekDay: WeekDay;
 	hour: string;
 };
 
+/** Contadores de status exibidos no card de escala. */
 export type Status = {
 	persons: number;
 	confirmed: number;

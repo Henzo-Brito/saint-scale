@@ -3,84 +3,83 @@ import {
 	Image,
 	type ImageSourcePropType,
 	StyleSheet,
-	StyleSheetProperties,
 	Text,
 	TouchableOpacity,
 	View,
 	type ViewStyle,
 } from "react-native";
 import sty from "@/constants/styles";
-import type { Date, Status } from "@/types/scales.type";
-import Infos from "./home/infos";
+import type { ScaleDate, Status } from "@/types/scales.type";
+import StatBadge from "./home/StatBadge";
 
 export type Props = {
-	Date: Date;
+	scaleDate: ScaleDate;
 	Persons: ImageSourcePropType[];
 	title: string;
 	status: Status;
-	func: () => void;
+	onPress: () => void;
 	styles?: ViewStyle;
 };
 
 export default function Scales({
-	Date,
+	scaleDate,
 	Persons,
 	title,
 	status,
-	func,
+	onPress,
 	styles,
 }: Props) {
-	if (Date.Day < 1 && Date.Day > 31) {
-		Date.Day = 1;
+	// Garante que o dia fique dentro do intervalo válido (1–31).
+	// Necessário enquanto os dados são mockados sem validação prévia.
+	if (scaleDate.Day < 1 || scaleDate.Day > 31) {
+		scaleDate.Day = 1;
 	}
 
-	function setPersons() {
-		return Persons.map((personImg, i) => {
-			if (i < 5) {
-				return (
-					<Image
-						source={personImg}
-						key={i}
-						style={[style.img, { zIndex: -i }]}
-					/>
-				);
-			}
-		});
+	function renderPersonAvatars() {
+		// Exibe no máximo 5 avatares sobrepostos para não ultrapassar a largura do card.
+		return Persons.slice(0, 5).map((personImg, i) => (
+			<Image
+				source={personImg}
+				// biome-ignore lint/suspicious/noArrayIndexKey: Persons é um array de imagens sem IDs únicos; a ordem é estável e determinada externamente.
+				key={`person-${i}`}
+				style={[style.img, { zIndex: -i }]}
+			/>
+		));
 	}
 
 	return (
-		<TouchableOpacity style={[style.container, styles]} onPress={func}>
+		<TouchableOpacity style={[style.container, styles]} onPress={onPress}>
 			<View style={style.header}>
 				<Text style={style.left}>
-					{Date.WeekDay}, {Date.hour}
+					{scaleDate.WeekDay}, {scaleDate.hour}
 				</Text>
 				<Text style={style.right}>
-					{Date.Day} de {Date.Mounth}
+					{scaleDate.Day} de {scaleDate.Month}
 				</Text>
 			</View>
 
 			<Text style={style.title}>{title}</Text>
 
-			<View style={style.persons}>{setPersons()}</View>
+			<View style={style.persons}>{renderPersonAvatars()}</View>
 			<View style={style.status}>
-				<Infos
+				<StatBadge
 					color={sty.c6}
 					icon={UserRound}
 					width={50}
 					title={status.persons.toString()}
-				></Infos>
-				<Infos
+				/>
+				<StatBadge
 					color={sty.c6}
 					icon={UserRoundCheck}
 					width={50}
 					title={status.confirmed.toString()}
-				></Infos>
-				<Infos
+				/>
+				<StatBadge
 					color={sty.c6}
 					icon={Music}
 					width={50}
 					title={status.songs.toString()}
-				></Infos>
+				/>
 			</View>
 		</TouchableOpacity>
 	);
@@ -102,21 +101,21 @@ const style = StyleSheet.create({
 	},
 	left: {
 		color: sty.c7,
-		fontWeight: 500,
+		fontWeight: "500",
 		fontSize: 14,
 	},
 	right: {
 		color: sty.c7,
-		fontWeight: 500,
+		fontWeight: "500",
 		fontSize: 14,
 	},
 	title: {
 		color: sty.c6,
-		fontWeight: 900,
+		fontWeight: "900",
 		fontSize: 23,
 	},
 	persons: {
-		paddingInline: 5,
+		paddingHorizontal: 5,
 		flexDirection: "row",
 	},
 	img: {
